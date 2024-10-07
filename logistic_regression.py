@@ -8,7 +8,7 @@ from imblearn.over_sampling import SMOTE
  # evaluation metrics
 
 # Load the dataset
-data = pd.read_csv('medals_by_country.csv')
+data = pd.read_csv('filtered_medals_by_country.csv')
 
 # Selecting the relevant features as mentioned in the PDF
 X = data[[ 'Total_medals', 'Number of Athletes', 'Number of events']]  # Replace with actual feature column names if needed
@@ -17,17 +17,17 @@ data['target'] = data['isHost']
 y = data['target']  # Assuming 'target' is the column indicating host country advantage (0 or 1)
 
 # Splitting the dataset into 70% training, 15% validation, and 15% test sets
-X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
-X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42, stratify=y_temp)
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.3, random_state=42)
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
 
-smote = SMOTE(random_state=42)
-X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
+# smote = SMOTE(random_state=42)
+# X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
 # Initialize the Logistic Regression model
-model = LogisticRegression(class_weight='balanced')
+model = LogisticRegression()
 
 # Train the model using the training set
-model.fit(X_train_resampled, y_train_resampled)
+model.fit(X_train, y_train)
 
 # Validate the model on the validation set
 y_val_pred = model.predict(X_val)
