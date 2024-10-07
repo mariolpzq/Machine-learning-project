@@ -4,6 +4,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix 
 from sklearn.metrics import classification_report
 from imblearn.over_sampling import SMOTE
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 
  # evaluation metrics
 
@@ -43,3 +46,24 @@ print(f'Test Accuracy: {test_accuracy}')
 print('Confusion Matrix:')
 print(conf_matrix)
 print(classification_report(y_test, y_test_pred))
+
+ax= plt.subplot()
+
+sns.heatmap(conf_matrix, annot=True, fmt='g', ax=ax)
+
+ax.set_xlabel('Predicted labels',fontsize=15)
+ax.set_ylabel('True labels',fontsize=15)
+ax.set_title('Confusion Matrix',fontsize=15)
+ax.xaxis.set_ticklabels(['isNotHost', 'isHost'],fontsize=15)
+ax.yaxis.set_ticklabels(['isNotHost', 'isHost'],fontsize=15)
+plt.show()
+
+
+TP= conf_matrix[1,1]
+FP= conf_matrix[0,1]
+precision = TP/(TP+FP)
+
+
+
+
+print('The precision of the model is: ',precision)
